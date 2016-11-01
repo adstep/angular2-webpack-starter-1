@@ -3,6 +3,7 @@
  */
 
 const webpack = require('webpack');
+const path    = require('path');
 const helpers = require('./helpers');
 
 /*
@@ -144,6 +145,17 @@ module.exports = function (options) {
           loader: 'file'
         },
 
+        {
+            test: /\.scss$/,
+            exclude: /node_modules/,
+            use: [
+                    'css-to-string-loader',
+                    'css-loader',
+                    'resolve-url-loader',
+                    'sass-loader'
+            ]
+        }
+
       ],
 
     },
@@ -266,7 +278,12 @@ module.exports = function (options) {
        *
        * See: https://gist.github.com/sokra/27b24881210b56bbaff7
        */
-      new LoaderOptionsPlugin({}),
+      new LoaderOptionsPlugin({
+          context: helpers.root('src'),
+          outupt: {
+            path: helpers.root('www')
+          }
+      }),
 
     ],
 
